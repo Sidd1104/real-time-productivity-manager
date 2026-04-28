@@ -55,6 +55,13 @@ app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
+  let error = { ...err, message: err.message, isOperational: err.isOperational };
+
+  // Handle MongoDB Duplicate Key Error
+  if (err.code === 11000) {
+    error = new AppError('Email already in use. Please use a different email or sign in.', 400);
+  }
+
   if (process.env.NODE_ENV === 'development') {
     res.status(err.statusCode).json({
       status: err.status,
@@ -64,13 +71,13 @@ app.use((err, req, res, next) => {
     });
   } else {
     // Log unexpected errors
-    if (!err.isOperational) {
-      logger.error('ERROR 💥', err);
+    if (!error.isOperational) {
+      logger.error('ERROR 💥', error);
     }
 
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message || 'Something went wrong!',
+    res.status(error.statusCode).json({
+      status: error.status,
+      message: error.message || 'Something went wrong!',
     });
   }
 });
