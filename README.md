@@ -2,6 +2,10 @@
 
 A production-grade full-stack SaaS application built with the MERN stack, Redux Toolkit, and Socket.io.
 
+## 🔗 Live Demo
+- **Frontend (Application)**: [https://real-time-productivity-manager.vercel.app](https://real-time-productivity-manager.vercel.app)
+- **Backend (API)**: [https://real-time-productivity-manager.onrender.com](https://real-time-productivity-manager.onrender.com)
+
 ## Features
 
 - **Authentication**: Secure JWT-based auth with bcrypt password hashing.
